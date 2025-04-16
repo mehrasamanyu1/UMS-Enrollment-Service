@@ -4,6 +4,7 @@ import com.ums.enrollment.constants.EndpointConstants;
 import com.ums.enrollment.model.Enrollment;
 import com.ums.enrollment.repository.EnrollmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -21,8 +22,8 @@ public class EnrollmentService {
 
     public boolean studentExists(Integer studentId) {
         try {
-            restTemplate.getForEntity(EndpointConstants.GET_STUDENT_ENDPOINT + studentId, String.class);
-            return true;
+            ResponseEntity<String> response = restTemplate.getForEntity(EndpointConstants.GET_STUDENT_ENDPOINT + studentId, String.class);
+            return response.getStatusCode().is2xxSuccessful();
         } catch (Exception e) {
             return false;
         }
@@ -30,8 +31,8 @@ public class EnrollmentService {
 
     public boolean courseExists(Integer courseId) {
         try {
-            restTemplate.getForEntity(EndpointConstants.GET_COURSE_ENDPOINT + courseId, String.class);
-            return true;
+            ResponseEntity<String> response = restTemplate.getForEntity(EndpointConstants.GET_COURSE_ENDPOINT + courseId, String.class);
+            return response.getStatusCode().is2xxSuccessful();
         } catch (Exception e) {
             return false;
         }
